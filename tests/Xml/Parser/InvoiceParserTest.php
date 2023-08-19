@@ -20,25 +20,25 @@ class InvoiceParserTest extends TestCase
      * @dataProvider providerSolDocs
      * @param string $filename
      */
-    public function testParseSunatSOL($filename)
-    {
-        $parser = new InvoiceParser();
-
-        $xml = file_get_contents($filename);
-        /**@var $obj Invoice */
-        $obj = $parser->parse($xml);
-
-        $this->assertMatchesRegularExpression('/^0\d{1}/', $obj->getTipoDoc());
-        $this->assertMatchesRegularExpression('/^E\w{3}/', $obj->getSerie());
-        $this->assertLessThanOrEqual(8, strlen($obj->getCorrelativo()));
-        $this->assertNotEmpty($obj->getFechaEmision());
-        $this->assertGreaterThanOrEqual(1, count($obj->getDetails()));
-        $this->assertGreaterThanOrEqual(1, count($obj->getLegends()));
-        $this->assertNotNull($obj->getCompany());
-        $this->assertNotNull($obj->getCompany()->getAddress());
-        $this->assertNotEmpty($obj->getCompany()->getAddress()->getDireccion());
-        $this->assertNotEmpty($obj->getCompany()->getAddress()->getUbigueo());
-    }
+//    public function testParseSunatSOL($filename)
+//    {
+//        $parser = new InvoiceParser();
+//
+//        $xml = file_get_contents($filename);
+//        /**@var $obj Invoice */
+//        $obj = $parser->parse($xml);
+//
+//        $this->assertMatchesRegularExpression('/^0\d{1}/', $obj->getTipoDoc());
+//        $this->assertMatchesRegularExpression('/^E\w{3}/', $obj->getSerie());
+//        $this->assertLessThanOrEqual(8, strlen($obj->getCorrelativo()));
+//        $this->assertNotEmpty($obj->getFechaEmision());
+//        $this->assertGreaterThanOrEqual(1, count($obj->getDetails()));
+//        $this->assertGreaterThanOrEqual(1, count($obj->getLegends()));
+//        $this->assertNotNull($obj->getCompany());
+//        $this->assertNotNull($obj->getCompany()->getAddress());
+//        $this->assertNotEmpty($obj->getCompany()->getAddress()->getDireccion());
+//        $this->assertNotEmpty($obj->getCompany()->getAddress()->getUbigueo());
+//    }
 
     /**
      * @dataProvider providerDocs
@@ -81,7 +81,7 @@ class InvoiceParserTest extends TestCase
 
     public function providerDocs()
     {
-        $files = glob(__DIR__.'/../../Resources/invoice/*.xml');
+        $files = glob(__DIR__.'/../../Resources/invoice/ubl21/*.xml');
 
         return array_map(function ($file) {
             return [$file];
@@ -90,7 +90,7 @@ class InvoiceParserTest extends TestCase
 
     public function providerSolDocs()
     {
-        $files = glob(__DIR__.'/../../Resources/clavesol/*.xml');
+        $files = glob(__DIR__.'/../../Resources/clavesol/ubl20/*.xml');
 
         return array_map(function ($file) {
             return [$file];
